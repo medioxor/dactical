@@ -1,0 +1,15 @@
+services:
+  splunk:
+      image: splunk/splunk:latest
+      ports:
+        - 8000:8000
+      environment:
+        - SPLUNK_START_ARGS=--accept-license
+        - SPLUNK_PASSWORD=asdfASDF1234
+      networks:
+        - internal-network
+
+networks:
+  internal-network:
+    external: false
+    name: internal-network
