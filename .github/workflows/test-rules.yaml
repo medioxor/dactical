@@ -5,7 +5,7 @@ jobs:
   enumerate-detections:
     runs-on: ubuntu-latest
     outputs:
-      file-list: ${{ steps.get-detections.outputs.detection-list }}
+      detection-list: ${{ steps.get-detections.outputs.detection-list }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
