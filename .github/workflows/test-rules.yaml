@@ -2,19 +2,39 @@ name: Test rules
 on: push
 
 jobs:
-  test:
+  enumerate-detections:
     runs-on: ubuntu-latest
+    outputs:
+      file-list: ${{ steps.get-detections.outputs.detection-list }}
     steps:
-    - uses: actions/checkout@v2
-    - name: Create splunk import directory
-      run: mkdir -p import
-    - name: Build the docker-compose stack
-      run: docker compose -f docker-compose.yaml up -d
-    - name: Wait for containers to start
-      run: sleep 20
-    - name: Install dependencies
-      run: pip install -r requirements.txt
-    - name: Install dactical
-      run: pip install .
-    - name: Replay splunk test data
-      run: dactical replay -d ./detections -b splunk
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: List all detections in a directory
+        id: get-detections
+        run: |
+          FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
+          echo "detection-list=$FILES" >> $GITHUB_ENV
+  
+  test-detections-splunk:
+    needs: enumerate-detections
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        file: ${{ fromJson(needs.enumerate-detections.outputs.detection-list) }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create splunk import directory
+        run: mkdir -p import
+      - name: Build the docker-compose stack
+        run: docker compose -f docker-compose.yaml up -d
+      - name: Wait for containers to start
+        run: sleep 10
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Install dactical
+        run: pip install .
+      - name: Replay splunk test data
+        run: dactical replay -d ./detections -b splunk
+    
+    
