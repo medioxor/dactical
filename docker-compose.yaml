@@ -6,6 +6,7 @@ services:
       environment:
         - SPLUNK_START_ARGS=--accept-license
         - SPLUNK_PASSWORD=asdfASDF1234
+        - SPLUNK_APPS_URL=https://botsdataset.s3.amazonaws.com/botsv3/botsv3_data_set.tgz
       networks:
         - internal-network
 

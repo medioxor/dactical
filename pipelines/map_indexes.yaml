@@ -1,0 +1,12 @@
+name: CloudTrail log transformation
+priority: 100
+transformations:
+  - id: add correct source and index
+    type: add_condition
+    conditions:
+      index: "botsv3"
+      sourcetype: "aws:cloudtrail"
+    rule_conditions:
+      - type: logsource
+        category: cloudtrail
+        product: aws
