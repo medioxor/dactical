@@ -5,23 +5,23 @@ jobs:
   enumerate-detections:
     runs-on: ubuntu-latest
     outputs:
-      detection-list: ${{ steps.detection-list.outputs.detection-list }}
+      detections: ${{ steps.get-detections.outputs.detections }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         
       - name: List all detections in a directory
-        id: detection-list
+        id: get-detections
         run: |
           FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
-          echo "detection-list=$FILES" >> $GITHUB_OUTPUT
+          echo "detections=$FILES" >> $GITHUB_OUTPUT
   
   test-detections-splunk:
     needs: enumerate-detections
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ fromJson(needs.enumerate-detections.outputs.detection-list) }}
+        file: ${{ fromJson(needs.enumerate-detections.outputs.detections) }}
     steps:
       - uses: actions/checkout@v2
       - name: Create splunk import directory
