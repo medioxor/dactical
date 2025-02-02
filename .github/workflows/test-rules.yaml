@@ -5,13 +5,13 @@ jobs:
   enumerate-detections:
     runs-on: ubuntu-latest
     outputs:
-      detection-list: ${{ steps.get-detections.outputs.detection-list }}
+      detection-list: ${{ steps.detection-list.outputs.detection-list }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         
       - name: List all detections in a directory
-        id: get-detections
+        id: detection-list
         run: |
           FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
           echo "detection-list=$FILES" >> $GITHUB_OUTPUT
