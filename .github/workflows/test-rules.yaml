@@ -16,12 +16,12 @@ jobs:
           FILES=$(echo "[" $(find ./detections -type f -name '*.yaml' -print | sed 's/^/"/;s/$/"/' | paste -sd, -) "]")
           echo "detections=$FILES" >> $GITHUB_OUTPUT
   
-  test-detections-splunk:
+  test-detection-splunk:
     needs: enumerate-detections
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        file: ${{ fromJson(needs.enumerate-detections.outputs.detections) }}
+        detection: ${{ fromJson(needs.enumerate-detections.outputs.detections) }}
     steps:
       - uses: actions/checkout@v2
       - name: Create splunk import directory
@@ -29,12 +29,15 @@ jobs:
       - name: Build the docker-compose stack
         run: docker compose -f docker-compose.yaml up -d
       - name: Wait for containers to start
-        run: sleep 10
+        run: sleep 20
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Install dactical
         run: pip install .
       - name: Replay splunk test data
         run: dactical replay -d ./detections -b splunk
+      - name: Test ${{ matrix.detection }}
+        run: |
+          echo "Testing detection: ${{ matrix.detection }}"
     
     
