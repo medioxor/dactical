@@ -6,6 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Create splunk import directory
+      run: mkdir -p import
     - name: Build the docker-compose stack
       run: docker compose -f docker-compose.yaml up -d
     - name: Wait for containers to start
@@ -14,7 +16,5 @@ jobs:
       run: pip install -r requirements.txt
     - name: Install dactical
       run: pip install .
-    - name: Create splunk import directory
-      run: mkdir -p import
     - name: Replay splunk test data
       run: dactical replay -d ./detections -b splunk
