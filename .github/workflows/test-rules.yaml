@@ -38,6 +38,6 @@ jobs:
       - name: Replay splunk test data
         run: dactical replay -d ./detections -b splunk
       - name: ${{ matrix.detection }}
-        run: dactical test -d ${{ matrix.detection }} -b splunk
+        run: dactical test -f ${{ matrix.detection }} -b splunk
     
     
