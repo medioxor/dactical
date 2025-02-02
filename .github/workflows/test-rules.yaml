@@ -13,7 +13,7 @@ jobs:
       - name: List all detections in a directory
         id: get-detections
         run: |
-          FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
+          FILES=$(find ./detections -type f -name '*.yaml' -print)
           echo "detections=$FILES" >> $GITHUB_OUTPUT
           echo $FILES and $GITHUB_OUTPUT
           cat $GITHUB_OUTPUT
