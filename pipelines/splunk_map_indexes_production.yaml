@@ -1,4 +1,4 @@
-name: CloudTrail log transformation
+name: Splunk production data log transformations
 priority: 100
 transformations:
   - id: add correct source and index

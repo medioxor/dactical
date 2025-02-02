@@ -11,6 +11,7 @@ setup(
     package_data={},
     entry_points={
         'console_scripts': [
+            'dactical = dactical.cli:main',
         ],
     }
 )

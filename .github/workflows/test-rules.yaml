@@ -8,5 +8,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the docker-compose stack
       run: docker compose -f docker-compose.yaml up -d
-    - name: Check running containers
-      run: docker ps -a
+    - name: Wait for containers to start
+      run: sleep 20
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Install dactical
+      run: pip install .
+    - name: Replay splunk test data
+      run: dactical replay -d ./detections -b splunk
