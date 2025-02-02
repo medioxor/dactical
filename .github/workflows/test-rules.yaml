@@ -20,6 +20,7 @@ jobs:
     needs: enumerate-detections
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         detection: ${{ fromJson(needs.enumerate-detections.outputs.detections) }}
     steps:
@@ -36,8 +37,7 @@ jobs:
         run: pip install .
       - name: Replay splunk test data
         run: dactical replay -d ./detections -b splunk
-      - name: Test ${{ matrix.detection }}
-        run: |
-          echo "Testing detection: ${{ matrix.detection }}"
+      - name: ${{ matrix.detection }}
+        run: dactical test -d ${{ matrix.detection }} -b splunk
     
     
