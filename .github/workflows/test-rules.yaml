@@ -14,8 +14,7 @@ jobs:
         id: get-detections
         run: |
           FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
-          echo "detection-list=$FILES" >> $GITHUB_ENV
-          echo $GITHUB_ENV
+          echo "detection-list=$FILES" >> $GITHUB_OUTPUT
   
   test-detections-splunk:
     needs: enumerate-detections
