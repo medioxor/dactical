@@ -13,6 +13,7 @@ class Replay:
 
     def run(self) -> None:
         for test in self.tests:
+            print("Ingesting data for test: ", test["name"])
             attack_data = test["attack_data"][0]
             if "url" == attack_data["type"]:
                 self.replay_url(attack_data["data"], attack_data["source"])

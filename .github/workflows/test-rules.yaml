@@ -14,5 +14,7 @@ jobs:
       run: pip install -r requirements.txt
     - name: Install dactical
       run: pip install .
+    - name: Create splunk import directory
+      run: mkdir -p import
     - name: Replay splunk test data
       run: dactical replay -d ./detections -b splunk
