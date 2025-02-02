@@ -22,17 +22,20 @@ falsepositives:
 level: medium
 tests:
     - name: True Positive Test URL
+      hits: 1
       attack_data:
         - data: https://raw.githubusercontent.com/medioxor/dactical/refs/heads/main/detections/aws/auth_failed_cloudtrail.json
           type: url
           source: aws:cloudtrail
     - name: True Positive Test File
+      hits: 1
       attack_data:
         # The path provided should be relative to the root of this repo
         - data: ./detections/aws/auth_failed_cloudtrail.json
           type: file
           source: aws:cloudtrail
     - name: True Positive Test Rule
+      hits: 1
       attack_data:
         - data: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
   "AROAYTOGP2RLP5AASA6I5:aws-go-sdk-1660169051746043000", "arn": "arn:aws:sts::111111111111:assumed-role/sample-role-used-by-stratus-for-ec2-password-data/aws-go-sdk-1660169051746043000",

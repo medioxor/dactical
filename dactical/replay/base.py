@@ -24,7 +24,30 @@ class Replay:
             else:
                 raise ValueError("Test must contain 'url', 'file', or 'raw' key")
 
-    def load_test_files(self, directory: str) -> bool:
+    def load_detection(self, path: str) -> bool:
+        """
+        Load test data from a YAML file.
+        
+        Args:
+            path: Path to YAML file.
+        
+        Returns:
+            Whether the data was successfully loaded.
+        
+        Raises:
+            RuntimeError: If YAML parsing fails.
+        """
+        try:
+            with open(path) as f:
+                data = yaml.safe_load(f)
+                if "tests" in data:
+                    self.tests.extend(data["tests"])
+        except (yaml.YAMLError, IOError) as e:
+            raise RuntimeError(f"Failed to parse {path}: {str(e)}") from e
+        
+        return True
+
+    def load_detections(self, directory: str) -> bool:
         """
         Load test data from all YAML files in a directory.
         
@@ -32,7 +55,7 @@ class Replay:
             directory: Path to directory containing YAML files.
             
         Returns:
-            List of test data from all YAML files.
+            Whether the data was successfully loaded.
             
         Raises:
             RuntimeError: If YAML parsing fails.
