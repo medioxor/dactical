@@ -13,10 +13,8 @@ jobs:
       - name: List all detections in a directory
         id: get-detections
         run: |
-          FILES=$(find ./detections -type f -name '*.yaml' -print)
+          FILES=$(echo "[" $(find ./detections -type f -name '*.yaml' -print | sed 's/^/"/;s/$/"/' | paste -sd, -) "]")
           echo "detections=$FILES" >> $GITHUB_OUTPUT
-          echo $FILES and $GITHUB_OUTPUT
-          cat $GITHUB_OUTPUT
   
   test-detections-splunk:
     needs: enumerate-detections
