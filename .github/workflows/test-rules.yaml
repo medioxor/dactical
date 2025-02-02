@@ -16,6 +16,7 @@ jobs:
           FILES=$(find ./detections -type f -name '*.yaml' -print | tr '\n' ',')
           echo "detections=$FILES" >> $GITHUB_OUTPUT
           echo $FILES and $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
   
   test-detections-splunk:
     needs: enumerate-detections
